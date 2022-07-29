@@ -14,11 +14,7 @@ const instance = axios.create({
   });
 
 class Model {
-    static async detaisStory(slug) {
-        const {data} = await axios.get(`${WEB_URL}/${slug}`)
-        const {window} = new JSDOM(data)
-        const { document } = window
-    }
+ 
     static async getChapStoryNew() {
         const {data} = await axios.get(`${WEB_URL}/chap-moi-nhat`)
         const {window} = new JSDOM(data)
@@ -45,6 +41,7 @@ class Model {
             const name = chaps.querySelector(".item-title").textContent;
             const img = chaps.querySelector("img").dataset.src
             const url = chaps.querySelector("a").getAttribute("href");
+            const slug = url.replace("/","")
             const view  = chaps.querySelector(".item-views").textContent
             const itemChild = chaps.querySelector('.item-children')
             const dateUpdate = chaps.querySelector(".item-thumbnail").textContent           
@@ -55,7 +52,7 @@ class Model {
                 const url = child.getAttribute("href");
                 return {name,update,url}
             })
-            return { name,dateUpdate,img,view,url,storyChap };
+            return { name,dateUpdate,img,view,url,slug,storyChap };
         })
         return newStory
     }
